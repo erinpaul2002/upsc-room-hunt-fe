@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Search, ArrowLeft, MapPin } from "lucide-react";
@@ -141,6 +141,7 @@ export default function SearchPage() {
   const selectedInstitute = useStore((state) => state.selectedInstitute);
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div className="min-h-screen bg-[var(--background)]">
       {/* Search Header */}
       <div className="bg-[var(--hero-gradient-from)] text-[var(--hero-text)] py-6 shadow-md">
@@ -349,5 +350,6 @@ export default function SearchPage() {
         )}
       </div>
     </div>
+    </Suspense>
   );
 }
