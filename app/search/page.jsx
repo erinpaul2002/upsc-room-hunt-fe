@@ -292,7 +292,7 @@ function SearchPageContent() {
                         ? hostel.location?.address || ""
                         : hostel.location || ""}
                     </p>
-                    <div className="flex items-center gap-2 mb-3">
+                    <div className="flex items-center gap-2 mb-3 flex-wrap">
                       <span className="bg-[var(--hostel-distance-badge-bg)] text-[var(--hostel-distance-badge-text)] px-2 py-1 rounded text-xs font-medium">
                         {distanceKm !== null
                           ? distanceKm < 1
@@ -300,9 +300,21 @@ function SearchPageContent() {
                             : `${distanceKm.toFixed(2)} km`
                           : hostel.distance || "N/A"}
                       </span>
-                      <span className="bg-[var(--hostel-room-badge-bg)] text-[var(--hostel-room-badge-text)] px-2 py-1 rounded text-xs font-medium">
-                        {hostel.roomType}
-                      </span>
+                      {/* Show all room types as badges */}
+                      {Array.isArray(hostel.rooms) && hostel.rooms.length > 0
+                        ? Array.from(new Set(hostel.rooms.map(r => r.type))).map((type, idx) => (
+                            <span
+                              key={type + idx}
+                              className="bg-[var(--hostel-room-badge-bg)] text-[var(--hostel-room-badge-text)] px-2 py-1 rounded text-xs font-medium"
+                            >
+                              {type}
+                            </span>
+                          ))
+                        : (
+                            <span className="bg-[var(--hostel-room-badge-bg)] text-[var(--hostel-room-badge-text)] px-2 py-1 rounded text-xs font-medium">
+                              {hostel.roomType || 'Room'}
+                            </span>
+                          )}
                     </div>
                     <div className="flex flex-wrap gap-1 mb-4">
                       {hostel.amenities.slice(0, 4).map((amenity, i) => (
@@ -312,7 +324,27 @@ function SearchPageContent() {
                       ))}
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-lg font-bold">{hostel.price}/mo</span>
+                      <span className="text-lg font-bold">
+                        {/* Price display: show low-high if multiple room types, else single price */}
+                        {Array.isArray(hostel.rooms) && hostel.rooms.length > 0
+                          ? (() => {
+                              const prices = hostel.rooms
+                                .map(r => r.price)
+                                .filter(p => typeof p === 'number' || !isNaN(Number(p)))
+                                .map(Number);
+                              if (prices.length === 1) {
+                                return `₹${prices[0]}`;
+                              } else if (prices.length > 1) {
+                                const min = Math.min(...prices);
+                                const max = Math.max(...prices);
+                                return min === max ? `₹${min}` : `₹${min} - ₹${max}`;
+                              } else {
+                                return hostel.price ? `₹${hostel.price}` : 'N/A';
+                              }
+                            })()
+                          : (hostel.price ? `₹${hostel.price}` : 'N/A')}
+                        <span className="text-base text-[var(--muted-foreground)] font-normal">/month</span>
+                      </span>
                       <Link
                         href={`/hostels/${hostel._id}`}
                         className="bg-[var(--hostel-explore-button-bg)] text-white px-4 py-2 rounded hover:bg-[var(--hostel-explore-button-hover)] transition-colors text-sm font-medium"

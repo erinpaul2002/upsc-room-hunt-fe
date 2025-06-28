@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import axiosClient from "@/utils/axiosClient";
 import useStore from "@/store/store";
-import { calculateDistance } from "@/utils/distance";
+
 
 // Section: Page Header
 function HostelDetailHeader({ onBack }) {
@@ -33,17 +33,8 @@ function HostelDetailHeader({ onBack }) {
 
 // Section: Hostel Card
 function HostelCard({ hostel, images, gender, address, roomTypes, distance, mapsLink, contact }) {
-  // Format distance: if < 1km, show in metres, else in km
-  let distanceDisplay = "-";
-  if (distance !== null && distance !== undefined) {
-    if (distance < 1) {
-      distanceDisplay = `${Math.round(distance * 1000)} m`;
-    } else {
-      distanceDisplay = `${distance.toFixed(2)} km`;
-    }
-  }
+  // Distance display removed for details page
 
-  // Price display: if more than one room, show as low-high, else show single price
   let priceDisplay = "-";
   if (roomTypes.length === 1) {
     priceDisplay = roomTypes[0].price;
@@ -80,12 +71,7 @@ function HostelCard({ hostel, images, gender, address, roomTypes, distance, maps
             {priceDisplay} <span className="text-base text-[var(--muted-foreground)]">/month</span>
           </span>
         </div>
-        <div className="flex flex-wrap items-center gap-3 mb-2">
-          <span className="bg-[var(--hostel-distance-badge-bg)] text-[var(--hostel-distance-badge-text)] px-4 py-1 rounded-full text-xs font-semibold border border-[var(--border)]">
-            {distanceDisplay} from institute
-          </span>
-        </div>
-        {/* Location & Contact Section inside Hostel Card */}
+        {/* Distance removed for details page */}
         <div className="flex flex-col md:flex-row md:items-center gap-4 bg-[var(--secondary)] rounded-lg p-4 shadow border border-[var(--border)]">
           <div className="flex-1 flex items-center text-[var(--hostel-location-text)] gap-2">
             <MapPin size={18} className="mr-1" />
@@ -100,6 +86,7 @@ function HostelCard({ hostel, images, gender, address, roomTypes, distance, maps
                 className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--primary)] text-white rounded-lg font-semibold shadow hover:bg-[var(--primary)]/90 transition-colors w-fit"
                 title="Directions"
               >
+                {/* Alternate icon: MapPin from lucide-react, matching the rest of the UI */}
                 <MapPin size={18} className="mr-1" />
                 Directions
               </a>
@@ -112,7 +99,6 @@ function HostelCard({ hostel, images, gender, address, roomTypes, distance, maps
   );
 }
 
-// Section: Room Types & Pricing
 function RoomTypesSection({ roomTypes }) {
   return (
     <div className="mt-12 bg-[var(--secondary)] rounded-xl p-8 shadow-lg border border-[var(--border)]">
@@ -145,7 +131,6 @@ function RoomTypesSection({ roomTypes }) {
   );
 }
 
-// Section: Facilities
 function FacilitiesSection({ facilities, amenityIcons }) {
   return (
     <div className="mt-12 bg-[var(--secondary)] rounded-xl p-8 shadow-lg border border-[var(--border)]">
@@ -165,34 +150,6 @@ function FacilitiesSection({ facilities, amenityIcons }) {
   );
 }
 
-// Section: Location / Contacts
-function LocationContactsSection({ address, mapsLink, contact }) {
-  return (
-    <div className="mt-12 bg-[var(--secondary)] rounded-xl p-8 shadow-lg border border-[var(--border)]">
-      <h2 className="text-2xl font-bold mb-4 tracking-tight">Location / Contacts</h2>
-      <div className="mb-3">
-        <span className="font-semibold">Address: </span>
-        <span>{address}</span>
-      </div>
-      <div className="flex flex-col md:flex-row md:items-center gap-4">
-        {typeof mapsLink === "string" && mapsLink.trim().length > 0 ? (
-          <a
-            href={mapsLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[var(--primary)] underline font-medium hover:text-[var(--primary)]/80"
-          >
-            Navigate to location
-          </a>
-        ) : null}
-        <span className="font-semibold">Phone: </span>
-        <span>{contact}</span>
-      </div>
-    </div>
-  );
-}
-
-// Section: Gallery
 function GallerySection({ images }) {
   return (
     <div className="mt-12">
@@ -259,8 +216,6 @@ export default function HostelDetailPage() {
     );
   }
 
-
-  // Data extraction
   const roomTypes = hostel.rooms || [];
   const facilities = hostel.amenities || [];
   const images = hostel.images || [];
@@ -269,29 +224,20 @@ export default function HostelDetailPage() {
   const contact = hostel.contact || "N/A";
   const gender = hostel.gender || "N/A";
 
-  // Calculate distance using util and store
-  const hostelLat = hostel.location?.latitude;
-  const hostelLng = hostel.location?.longitude;
-  const instLat = instituteLocation?.latitude;
-  const instLng = instituteLocation?.longitude;
-  const distance = calculateDistance(instLat, instLng, hostelLat, hostelLng);
+  // Distance calculation removed for details page
+  // const hostelLat = hostel.location?.latitude;
+  // const hostelLng = hostel.location?.longitude;
+  // const instLat = instituteLocation?.latitude;
+  // const instLng = instituteLocation?.longitude;
+  // const distance = calculateDistance(instLat, instLng, hostelLat, hostelLng);
 
   return (
     <div className="min-h-screen bg-[var(--background)] flex flex-col">
       <div className="container mx-auto px-4 py-12 flex-1">
-        {/* Page Header */}
         <HostelDetailHeader onBack={() => router.back()} />
-
-        {/* Section: Hostel Card (now includes Location & Contact) */}
-        <HostelCard hostel={hostel} images={images} gender={gender} address={address} roomTypes={roomTypes} distance={distance} mapsLink={mapsLink} contact={contact} />
-
-        {/* Section: Gallery */}
+        <HostelCard hostel={hostel} images={images} gender={gender} address={address} roomTypes={roomTypes} mapsLink={mapsLink} contact={contact} />
         <GallerySection images={images} />
-
-        {/* Section: Room Types & Pricing */}
         <RoomTypesSection roomTypes={roomTypes} />
-
-        {/* Section: Facilities */}
         <FacilitiesSection facilities={facilities} amenityIcons={amenityIcons} />
       </div>
     </div>

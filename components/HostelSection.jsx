@@ -1,13 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin } from "lucide-react";
+import { MapPin, Navigation } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { amenityIcons } from "../data/hostels";
 import useStore from "../store/store"; // adjust path if needed
 
 export default function HostelSection() {
     const hostels = useStore((state) => state.hostels);
+    const setSelectedHostel = useStore((state) => state.setSelectedHostel);
+    const router = useRouter();
 
     if (!hostels.length) {
         return (
@@ -48,9 +51,16 @@ export default function HostelSection() {
                             <div className="flex justify-between items-start mb-2">
                                 <h3 className="font-bold text-lg">{hostel.name}</h3>
                                 <span className="text-[var(--primary)] font-bold">
-                                    {/* Show lowest price if rooms exist */}
+                                    {/* Show price range if multiple room types exist */}
                                     {hostel.rooms && hostel.rooms.length > 0
-                                        ? `₹${Math.min(...hostel.rooms.map(r => r.price))}`
+                                        ? (() => {
+                                            const prices = hostel.rooms.map(r => r.price).sort((a, b) => a - b);
+                                            if (prices.length === 1) {
+                                                return `₹${prices[0]}`;
+                                            } else {
+                                                return `₹${prices[0]} - ₹${prices[prices.length - 1]}`;
+                                            }
+                                        })()
                                         : "N/A"}
                                 </span>
                             </div>
@@ -59,15 +69,20 @@ export default function HostelSection() {
                                 <span>{hostel.location?.address || "No address"}</span>
                             </div>
                             <div className="flex items-center mb-4">
-                                <span className="bg-[var(--hostel-distance-badge-bg)] text-[var(--hostel-distance-badge-text)] text-xs px-2 py-1 rounded-full">
-                                    {/* Distance logic can be added if available */}
-                                    -
-                                </span>
-                                <span className="bg-[var(--hostel-room-badge-bg)] text-[var(--hostel-room-badge-text)] text-xs px-2 py-1 rounded-full ml-2">
-                                    {hostel.rooms && hostel.rooms.length > 0
-                                        ? hostel.rooms[0].type
-                                        : "Room"}
-                                </span>
+                                {hostel.rooms && hostel.rooms.length > 0
+                                    ? Array.from(new Set(hostel.rooms.map(r => r.type))).map((type) => (
+                                        <span
+                                            key={type}
+                                            className="bg-[var(--hostel-room-badge-bg)] text-[var(--hostel-room-badge-text)] text-xs px-2 py-1 rounded-full mr-2 last:mr-0"
+                                        >
+                                            {type}
+                                        </span>
+                                    ))
+                                    : (
+                                        <span className="bg-[var(--hostel-room-badge-bg)] text-[var(--hostel-room-badge-text)] text-xs px-2 py-1 rounded-full">
+                                            Room
+                                        </span>
+                                    )}
                             </div>
                             <div className="flex flex-wrap gap-2 mb-4">
                                 {hostel.amenities?.slice(0, 4).map((amenity) => (
@@ -81,8 +96,9 @@ export default function HostelSection() {
                                 ))}
                             </div>
                             <Link
-                                href={`/hostel/${hostel._id}`}
-                                className="block w-full bg-[var(--primary)] text-[var(--primary-foreground)] text-center py-2 rounded-md hover:bg-[var(--primary)]/90 transition-colors"
+                                href={`/details/${hostel._id}`}
+                                className="block w-full bg-[var(--primary)] text-[var(--primary-foreground)] text-center py-2 rounded-md hover:bg-[var(--primary)]/90 transition-colors mt-2 font-semibold"
+                                onClick={() => setSelectedHostel(hostel)}
                             >
                                 View Details
                             </Link>
