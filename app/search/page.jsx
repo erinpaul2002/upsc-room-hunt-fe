@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useRef, Suspense } from "react";
@@ -7,18 +8,17 @@ import { Search, ArrowLeft, MapPin } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import axiosClient from "@/utils/axiosClient";
-
 import { searchHostels } from "@/utils/searchHostels";
-import useStore from "@/store/store"; // Adjust the import path if needed
+import useStore from "@/store/store";
 import { calculateDistance } from "@/utils/distance";
 
-export default function SearchPage() {
+function SearchPageContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
   const filter = searchParams.get("filter") || "All";
   const instituteId = searchParams.get("instituteId") || null;
   const distance = searchParams.get("distance") || 1000;
-  
+
   const [searchQuery, setSearchQuery] = useState(query);
   const [activeFilter, setActiveFilter] = useState(filter);
   const [filteredHostels, setFilteredHostels] = useState([]);
@@ -26,14 +26,10 @@ export default function SearchPage() {
   const institutions = useStore((state) => state.institutions);
   const inputRef = useRef(null);
   const [showDropdown, setShowDropdown] = useState(false);
-  
+
   const filters = ["All", "Male", "Female"];
 
-  // This useEffect will run when the component mounts or when query/filter changes
   useEffect(() => {
-    console.log("Search query:", query);
-    console.log("Filter:", filter);
-    
     let institute = null;
     if (instituteId) {
       institute = institutions.find((inst) => inst._id === instituteId);
@@ -43,7 +39,6 @@ export default function SearchPage() {
       );
     }
     setMatchedInstitute(institute);
-    console.log("Matched institute:", institute);
 
     async function fetchHostels() {
       if (institute && institute._id) {
@@ -56,14 +51,14 @@ export default function SearchPage() {
             results = results.filter((hostel) => hostel.gender === filter);
           }
           setFilteredHostels(results);
-          setNearbyHostels(results); // <-- Add to store
+          setNearbyHostels(results);
         } catch (err) {
           setFilteredHostels([]);
-          setNearbyHostels([]); // <-- Clear in store on error
+          setNearbyHostels([]);
         }
       } else {
         setFilteredHostels([]);
-        setNearbyHostels([]); // <-- Clear in store if no institute
+        setNearbyHostels([]);
       }
     }
     if (institutions.length > 0) {
@@ -100,7 +95,6 @@ export default function SearchPage() {
     }
     window.history.pushState({}, "", url);
 
-    // Use the modularized util
     const { results, matchedInstitute } = await searchHostels({
       institutions,
       searchQuery,
@@ -112,7 +106,6 @@ export default function SearchPage() {
     setNearbyHostels(results);
   };
 
-  // Filter institutions based on search query
   const filteredInstitutions =
     searchQuery.length > 0
       ? institutions.filter((inst) =>
@@ -136,12 +129,9 @@ export default function SearchPage() {
     setSelectedHostel(hostel, hostel.location || { latitude: null, longitude: null, link: "" });
   };
 
-
-
   const selectedInstitute = useStore((state) => state.selectedInstitute);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
     <div className="min-h-screen bg-[var(--background)]">
       {/* Search Header */}
       <div className="bg-[var(--hero-gradient-from)] text-[var(--hero-text)] py-6 shadow-md">
@@ -152,8 +142,7 @@ export default function SearchPage() {
             </Link>
             <h1 className="text-xl md:text-2xl font-semibold">Search Results</h1>
           </div>
-          
-          {/* Search Input */}
+          {/* ...existing code... */}
           <div className="bg-[var(--hero-input-bg)] rounded-lg shadow-lg mb-4 flex relative">
             <div className="flex-1 flex items-center relative">
               <div className="pl-4 pr-2 py-3 text-[var(--hero-input-placeholder)]">
@@ -202,8 +191,7 @@ export default function SearchPage() {
               Search
             </button>
           </div>
-          
-          {/* Filter Tags */}
+          {/* ...existing code... */}
           <div className="flex flex-wrap gap-2">
             {filters.map((filterOption) => (
               <button
@@ -226,10 +214,8 @@ export default function SearchPage() {
           </div>
         </div>
       </div>
-      
-      {/* Results Section */}
+      {/* ...existing code... */}
       <div className="container mx-auto px-4 py-8">
-        {/* Matched Institute Info */}
         {matchedInstitute && (
           <div className="mb-8 p-4 bg-[var(--carousel-card-bg)] rounded-lg shadow-md">
             <div className="flex flex-col md:flex-row items-center gap-4">
@@ -254,12 +240,9 @@ export default function SearchPage() {
             </div>
           </div>
         )}
-        
-        {/* Search Results Count */}
         <h2 className="text-xl font-bold mb-4">
           {filteredHostels.length} {filteredHostels.length === 1 ? 'Result' : 'Results'} Found
         </h2>
-        
         {filteredHostels.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-[var(--muted-foreground)] text-lg">No hostels found matching your search criteria.</p>
@@ -301,7 +284,6 @@ export default function SearchPage() {
                       {hostel.gender}
                     </div>
                   </div>
-                  
                   <div className="p-4">
                     <h3 className="text-lg font-bold mb-1">{hostel.name}</h3>
                     <p className="text-[var(--hostel-location-text)] text-sm mb-2 flex items-center">
@@ -310,7 +292,6 @@ export default function SearchPage() {
                         ? hostel.location?.address || ""
                         : hostel.location || ""}
                     </p>
-                    
                     <div className="flex items-center gap-2 mb-3">
                       <span className="bg-[var(--hostel-distance-badge-bg)] text-[var(--hostel-distance-badge-text)] px-2 py-1 rounded text-xs font-medium">
                         {distanceKm !== null
@@ -323,7 +304,6 @@ export default function SearchPage() {
                         {hostel.roomType}
                       </span>
                     </div>
-                    
                     <div className="flex flex-wrap gap-1 mb-4">
                       {hostel.amenities.slice(0, 4).map((amenity, i) => (
                         <span key={amenity + i} className="bg-[var(--hostel-amenity-bg)] text-[var(--hostel-amenity-text)] px-2 py-1 rounded-full text-xs flex items-center">
@@ -331,7 +311,6 @@ export default function SearchPage() {
                         </span>
                       ))}
                     </div>
-                    
                     <div className="flex justify-between items-center">
                       <span className="text-lg font-bold">{hostel.price}/mo</span>
                       <Link
@@ -350,6 +329,13 @@ export default function SearchPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchPageContent />
     </Suspense>
   );
 }
