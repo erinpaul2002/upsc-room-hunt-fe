@@ -1,0 +1,147 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f4f6;
+  --secondary-foreground: #111827;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+  --accent: #f3f4f6;
+  --accent-foreground: #111827;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #3b82f6;
+  --radius: 0.5rem;
+  
+  /* Header section variables */
+  --header-bg: #ffffff;
+  --header-nav-text: #374151;
+  --header-nav-hover: var(--primary);
+  --header-button-hover-bg: #f3f4f6;
+  --header-shadow: rgba(0, 0, 0, 0.05);
+  
+  /* Hero section specific variables */
+  --hero-gradient-from: #2563eb;
+  --hero-gradient-to: #4338ca;
+  --hero-text: #ffffff;
+  --hero-overlay: rgba(0, 0, 0, 0.3);
+  --hero-input-bg: #ffffff;
+  --hero-input-text: #1f2937;
+  --hero-input-placeholder: #6b7280;
+  --hero-button-bg: #1e40af;
+  --hero-button-hover: #1e3a8a;
+  --hero-filter-active-bg: #ffffff;
+  --hero-filter-active-text: #1e40af;
+  --hero-filter-inactive-bg: rgba(255, 255, 255, 0.2);
+  --hero-filter-inactive-hover: rgba(255, 255, 255, 0.3);
+  
+  /* Institution carousel variables */
+  --carousel-nav-bg: #f3f4f6;
+  --carousel-nav-hover: #e5e7eb;
+  --carousel-card-bg: #ffffff;
+  --carousel-card-shadow: rgba(0, 0, 0, 0.1);
+  --carousel-card-location: #6b7280;
+  
+  /* Hostel section variables */
+  --hostel-card-bg: #ffffff;
+  --hostel-gender-badge-bg: #ffffff;
+  --hostel-gender-badge-text: #1f2937;
+  --hostel-location-text: #6b7280;
+  --hostel-distance-badge-bg: #dbeafe;
+  --hostel-distance-badge-text: #1e40af;
+  --hostel-room-badge-bg: #f3f4f6;
+  --hostel-room-badge-text: #1f2937;
+  --hostel-amenity-bg: #f3f4f6;
+  --hostel-amenity-text: #4b5563;
+  --hostel-explore-button-bg: #1e40af;
+  --hostel-explore-button-hover: #1e3a8a;
+  
+  /* Footer section variables */
+  --footer-bg: #f3f4f6;
+  --footer-text: #111827;
+  --footer-muted-text: #6b7280;
+  --footer-border: #e5e7eb;
+  --footer-hover-text: #111827;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --primary: #3b82f6;
+    --primary-foreground: #ffffff;
+    --secondary: #1f2937;
+    --secondary-foreground: #f9fafb;
+    --muted: #1f2937;
+    --muted-foreground: #9ca3af;
+    --accent: #1f2937;
+    --accent-foreground: #f9fafb;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #374151;
+    --input: #374151;
+    --ring: #3b82f6;
+    
+    /* Header section dark mode variables */
+    --header-bg: #111827;
+    --header-nav-text: #e5e7eb;
+    --header-nav-hover: var(--primary);
+    --header-button-hover-bg: #1f2937;
+    --header-shadow: rgba(0, 0, 0, 0.1);
+    
+    /* Hero section dark mode variables */
+    --hero-gradient-from: #2563eb;
+    --hero-gradient-to: #4338ca;
+    --hero-text: #ffffff;
+    --hero-overlay: rgba(0, 0, 0, 0.3);
+    --hero-input-bg: #ffffff;
+    --hero-input-text: #1f2937;
+    --hero-input-placeholder: #6b7280;
+    --hero-button-bg: #1e40af;
+    --hero-button-hover: #1e3a8a;
+    --hero-filter-active-bg: #ffffff;
+    --hero-filter-active-text: #1e40af;
+    --hero-filter-inactive-bg: rgba(255, 255, 255, 0.2);
+    --hero-filter-inactive-hover: rgba(255, 255, 255, 0.3);
+    
+    /* Institution carousel dark mode variables */
+    --carousel-nav-bg: #1f2937;
+    --carousel-nav-hover: #374151;
+    --carousel-card-bg: #1f2937;
+    --carousel-card-shadow: rgba(0, 0, 0, 0.25);
+    --carousel-card-location: #9ca3af;
+    
+    /* Hostel section dark mode variables */
+    --hostel-card-bg: #1f2937;
+    --hostel-gender-badge-bg: #111827;
+    --hostel-gender-badge-text: #ffffff;
+    --hostel-location-text: #9ca3af;
+    --hostel-distance-badge-bg: rgba(37, 99, 235, 0.3);
+    --hostel-distance-badge-text: #93c5fd;
+    --hostel-room-badge-bg: #374151;
+    --hostel-room-badge-text: #d1d5db;
+    --hostel-amenity-bg: #374151;
+    --hostel-amenity-text: #d1d5db;
+    --hostel-explore-button-bg: #1e40af;
+    --hostel-explore-button-hover: #1e3a8a;
+    
+    /* Footer section dark mode variables */
+    --footer-bg: #1f2937;
+    --footer-text: #f9fafb;
+    --footer-muted-text: #9ca3af;
+    --footer-border: #374151;
+    --footer-hover-text: #f9fafb;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', Arial, sans-serif;
+}
