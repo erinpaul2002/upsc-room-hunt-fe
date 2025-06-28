@@ -2,157 +2,149 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --background: #ede7f6;
-  --foreground: #6a1b9a;
-  --primary: #9C27B0;
-  --secondary: #FF9800;
-  --muted: #d1c4e9;
-  --border: #7b1fa2;
-  --button-bg: #8e24aa;
-  --button-bg-hover: #6a1b9a;
+  --background: #f7f8fa;
+  --foreground: #1a237e;
+  --primary: #3b3bff;
+  --primary-dark: #2323a0;
+  --accent: #ff9800;
+  --accent-dark: #ff6d00;
+  --muted: #e0e7ef;
+  --border: #d1d5db;
+  --button-bg: #3b3bff;
+  --button-bg-hover: #2323a0;
   --button-text: #fff;
-  --button-text-secondary: #6a1b9a;
-  --amenity-text: #6a1b9a;
-  --amenity-bg: #d1c4e9;
-  --room-badge-bg: #d1c4e9;
-  --room-badge-text: #6a1b9a;
-  --price-text: #7b1fa2;
+  --button-text-secondary: #2323a0;
+  --amenity-text: #2323a0;
+  --amenity-bg: #e0e7ef;
+  --room-badge-bg: #e0e7ef;
+  --room-badge-text: #2323a0;
+  --price-text: #ff9800;
 
   --gender-badge-text: #fff;
-  --gender-badge-bg: #FF9800;
+  --gender-badge-bg: #3b3bff;
 
   --card-bg: #fff;
-  --card-shadow: #000;
-  --card-text: #000;
-  --card-sub-text: #FF9800;
+  --card-shadow: rgba(59,59,255,0.08);
+  --card-text: #1a237e;
+  --card-sub-text: #ff9800;
 
-  --institute-card-bg: #f3f3f3;
-  --institute-card-shadow: #fff;
-  --institute-card-text: #FF9800;
-  --institute-card-location: #000;
-  --institute-card-sub-text: #FF9800;
+  --institute-card-bg: #f3f6fa;
+  --institute-card-shadow: #e0e7ef;
+  --institute-card-text: #3b3bff;
+  --institute-card-location: #2323a0;
+  --institute-card-sub-text: #ff9800;
 
-  --distance-badge-bg: #FF9800;
+  --distance-badge-bg: #ff9800;
   --distance-badge-text: #fff;
 
-  --search-text: #9C27B0;
-  --search-sub-text: #FF9800;
-  --search-input-bg: #f3f3f3;
+  --search-text: #3b3bff;
+  --search-sub-text: #ff9800;
+  --search-input-bg: #f3f6fa;
   --search-input-bg-hover: #fff;
-  --search-input-text: #000;
-  --search-input-placeholder: #FF9800;
-  --search-button-bg: #9C27B0;
-  --search-button-hover: #7b1fa2;
+  --search-input-text: #2323a0;
+  --search-input-placeholder: #ff9800;
+  --search-button-bg: #3b3bff;
+  --search-button-hover: #2323a0;
   --search-button-text: #fff;
-  --search-filter-active-bg: #FF9800;
-  --search-filter-active-hover: #7b1fa2;
+  --search-filter-active-bg: #ff9800;
+  --search-filter-active-hover: #2323a0;
   --search-filter-active-text: #fff;
-  --search-filter-inactive-bg: #f3f3f3;
-  --search-filter-inactive-hover: #fff;
-  --search-filter-inactive-text: #FF9800;
+  --search-filter-inactive-bg: #f3f6fa;
+  --search-filter-inactive-hover: #e0e7ef;
+  --search-filter-inactive-text: #3b3bff;
 
   /* Header section variables */
-  --header-bg: #9C27B0;
+  --header-bg: #3b3bff;
   --header-nav-text: #fff;
-  --header-nav-hover: #fff;
-  --header-button-hover-bg: #fff;
-  --header-shadow: #9C27B0;
+  --header-nav-hover: #ff9800;
+  --header-button-hover-bg: #e0e7ef;
+  --header-shadow: #3b3bff;
 
   /* Hero section specific variables */
-  --hero-gradient-from: #dab3df;
-  --hero-gradient-to: #FF9800;
+  --hero-gradient-from: #e0e7ef;
+  --hero-gradient-to: #ff9800;
   --hero-overlay: #fff;
 
   /* Footer section variables */
   --footer-bg: #fff;
-  --footer-text: #9C27B0;
-  --footer-muted-text: #FF9800;
-  --footer-border: #9C27B0;
-  --footer-hover-text: #FF9800;
+  --footer-text: #3b3bff;
+  --footer-muted-text: #ff9800;
+  --footer-border: #3b3bff;
+  --footer-hover-text: #ff9800;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #2C3930;
-    --foreground: #DCD7C9;
-    --primary: #A27B5C;
-    --secondary: #3F4F44;
-    --muted: #3F4F44;
-    --border: #A27B5C;
+    --background: #181a20;
+    --foreground: #e0e7ef;
+    --primary: #7c83ff;
+    --primary-dark: #3b3bff;
+    --accent: #ffb74d;
+    --accent-dark: #ff9800;
+    --muted: #23263a;
+    --border: #23263a;
 
-    /* Header section dark mode variables */
-    --header-bg: #2C3930;
-    --header-nav-text: #DCD7C9;
-    --header-nav-hover: #A27B5C;
-    --header-button-hover-bg: #3F4F44;
-    --header-shadow: #A27B5C;
+    --header-bg: #2323a0;
+    --header-nav-text: #e0e7ef;
+    --header-nav-hover: #ffb74d;
+    --header-button-hover-bg: #23263a;
+    --header-shadow: #3b3bff;
 
-    /* Hero section dark mode variables */
-    --hero-gradient-from: #3F4F44;
-    --hero-gradient-to: #A27B5C;
-    --hero-overlay: #2C3930;
+    --hero-gradient-from: #23263a;
+    --hero-gradient-to: #7c83ff;
+    --hero-overlay: #181a20;
 
-    /* Button dark mode variables */
-    --button-bg: #A27B5C;
-    --button-bg-hover: #3F4F44;
-    --button-text: #DCD7C9;
-    --button-text-secondary: #2C3930;
+    --button-bg: #7c83ff;
+    --button-bg-hover: #3b3bff;
+    --button-text: #181a20;
+    --button-text-secondary: #e0e7ef;
 
-    /* Amenity dark mode variables */
-    --amenity-text: #DCD7C9;
-    --amenity-bg: #3F4F44;
+    --amenity-text: #e0e7ef;
+    --amenity-bg: #23263a;
 
-    /* Room badge dark mode variables */
-    --room-badge-bg: #3F4F44;
-    --room-badge-text: #DCD7C9;
+    --room-badge-bg: #23263a;
+    --room-badge-text: #e0e7ef;
 
-    /* Price text dark mode */
-    --price-text: #DCD7C9;
+    --price-text: #ffb74d;
 
-    /* Gender badge dark mode */
-    --gender-badge-text: #2C3930;
-    --gender-badge-bg: #A27B5C;
+    --gender-badge-text: #181a20;
+    --gender-badge-bg: #7c83ff;
 
-    /* Card dark mode variables */
-    --card-bg: #2C3930;
-    --card-shadow: #A27B5C;
-    --card-text: #DCD7C9;
-    --card-sub-text: #A27B5C;
+    --card-bg: #23263a;
+    --card-shadow: #3b3bff;
+    --card-text: #e0e7ef;
+    --card-sub-text: #ffb74d;
 
-    /* Institute card dark mode variables */
-    --institute-card-bg: #3F4F44;
-    --institute-card-shadow: #2C3930;
-    --institute-card-text: #DCD7C9;
-    --institute-card-location: #A27B5C;
-    --institute-card-sub-text: #DCD7C9;
+    --institute-card-bg: #23263a;
+    --institute-card-shadow: #181a20;
+    --institute-card-text: #ffb74d;
+    --institute-card-location: #7c83ff;
+    --institute-card-sub-text: #e0e7ef;
 
-    /* Distance badge dark mode */
-    --distance-badge-bg: #A27B5C;
-    --distance-badge-text: #DCD7C9;
+    --distance-badge-bg: #ffb74d;
+    --distance-badge-text: #181a20;
 
-    /* Search section dark mode variables */
-    --search-text: #DCD7C9;
-    --search-sub-text: #A27B5C;
-    --search-input-bg: #3F4F44;
-    --search-input-bg-hover: #2C3930;
-    --search-input-text: #DCD7C9;
-    --search-input-placeholder: #A27B5C;
-    --search-button-bg: #A27B5C;
-    --search-button-hover: #3F4F44;
-    --search-button-text: #DCD7C9;
-    --search-filter-active-bg: #FF9800;
-    --search-filter-active-hover: #7b1fa2;
-    --search-filter-active-text: #fff;
-    --search-filter-inactive-bg: #3F4F44;
-    --search-filter-inactive-hover: #2C3930;
-    --search-filter-inactive-text: #A27B5C;
+    --search-text: #e0e7ef;
+    --search-sub-text: #ffb74d;
+    --search-input-bg: #23263a;
+    --search-input-bg-hover: #181a20;
+    --search-input-text: #e0e7ef;
+    --search-input-placeholder: #ffb74d;
+    --search-button-bg: #7c83ff;
+    --search-button-hover: #3b3bff;
+    --search-button-text: #181a20;
+    --search-filter-active-bg: #ffb74d;
+    --search-filter-active-hover: #3b3bff;
+    --search-filter-active-text: #181a20;
+    --search-filter-inactive-bg: #23263a;
+    --search-filter-inactive-hover: #181a20;
+    --search-filter-inactive-text: #7c83ff;
 
-    /* Footer section dark mode variables */
-    --footer-bg: #2C3930;
-    --footer-text: #DCD7C9;
-    --footer-muted-text: #A27B5C;
-    --footer-border: #A27B5C;
-    --footer-hover-text: #DCD7C9;
+    --footer-bg: #181a20;
+    --footer-text: #7c83ff;
+    --footer-muted-text: #ffb74d;
+    --footer-border: #7c83ff;
+    --footer-hover-text: #e0e7ef;
   }
 }
 
