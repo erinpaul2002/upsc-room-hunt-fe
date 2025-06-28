@@ -12,7 +12,7 @@ export default function Header() {
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
-          <span className="font-bold text-xl text-[var(--primary)]">UPSC Room Hunt</span>
+          <span className="font-bold text-xl text-[var(--header-nav-text)]">UPSC Room Hunt</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -30,7 +30,7 @@ export default function Header() {
           <button className="p-2 rounded-full hover:bg-[var(--header-button-hover-bg)]">
             <Search size={20} />
           </button>
-          <button className="flex items-center space-x-2 bg-[var(--primary)] text-[var(--primary-foreground)] px-4 py-2 rounded-md hover:bg-[var(--primary)]/90">
+          <button className="flex items-center space-x-2 bg-[var(--primary)] text-[var(--background)] px-4 py-2 rounded-md hover:bg-[var(--primary)]/90">
             <User size={18} />
             <span>Sign In</span>
           </button>
@@ -77,7 +77,7 @@ export default function Header() {
             >
               Contact
             </Link>
-            <button className="flex items-center justify-center space-x-2 bg-[var(--primary)] text-[var(--primary-foreground)] px-4 py-2 rounded-md hover:bg-[var(--primary)]/90 w-full">
+            <button className="flex items-center justify-center space-x-2 bg-[var(--primary)] text-[var(--background)] px-4 py-2 rounded-md hover:bg-[var(--primary)]/90 w-full">
               <User size={18} />
               <span>Sign In</span>
             </button>

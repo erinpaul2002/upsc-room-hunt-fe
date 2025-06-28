@@ -11,8 +11,10 @@ import axiosClient from "@/utils/axiosClient";
 import { searchHostels } from "@/utils/searchHostels";
 import useStore from "@/store/store";
 import { calculateDistance } from "@/utils/distance";
+import { useRouter } from "next/navigation";
 
 function SearchPageContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
   const filter = searchParams.get("filter") || "All";
@@ -21,6 +23,7 @@ function SearchPageContent() {
 
   const [searchQuery, setSearchQuery] = useState(query);
   const [activeFilter, setActiveFilter] = useState(filter);
+  const hostels = useStore((state) => state.hostels);
   const [filteredHostels, setFilteredHostels] = useState([]);
   const [matchedInstitute, setMatchedInstitute] = useState(null);
   const institutions = useStore((state) => state.institutions);
@@ -41,14 +44,24 @@ function SearchPageContent() {
     setMatchedInstitute(institute);
 
     async function fetchHostels() {
+      if ((query === '' || query === null) && !instituteId) {
+        // If search is empty and not searching by institute, show all hostels
+        let results = hostels;
+        if (activeFilter !== "All") {
+          results = results.filter((hostel) => hostel.gender === activeFilter);
+        }
+        setFilteredHostels(results);
+        setNearbyHostels(results);
+        return;
+      }
       if (institute && institute._id) {
         try {
           const res = await axiosClient.get(`/hostels/nearby/${institute._id}`, {
             params: { distance: Number(distance) },
           });
           let results = res.data;
-          if (filter !== "All") {
-            results = results.filter((hostel) => hostel.gender === filter);
+          if (activeFilter !== "All") {
+            results = results.filter((hostel) => hostel.gender === activeFilter);
           }
           setFilteredHostels(results);
           setNearbyHostels(results);
@@ -64,7 +77,7 @@ function SearchPageContent() {
     if (institutions.length > 0) {
       fetchHostels();
     }
-  }, [query, filter, institutions, instituteId, distance]);
+  }, [query, activeFilter, institutions, instituteId, distance, hostels]);
 
   const setSelectedInstitute = useStore((state) => state.setSelectedInstitute);
   const setNearbyHostels = useStore((state) => state.setNearbyHostels);
@@ -94,6 +107,18 @@ function SearchPageContent() {
       url = `/search?query=${encodeURIComponent(searchQuery)}&filter=${encodeURIComponent(activeFilter)}`;
     }
     window.history.pushState({}, "", url);
+
+    // If search is empty, show all hostels
+    if (!searchQuery || searchQuery.trim() === "") {
+      let results = hostels;
+      if (activeFilter !== "All") {
+        results = results.filter((hostel) => hostel.gender === activeFilter);
+      }
+      setMatchedInstitute(null);
+      setFilteredHostels(results);
+      setNearbyHostels(results);
+      return;
+    }
 
     const { results, matchedInstitute } = await searchHostels({
       institutions,
@@ -127,6 +152,7 @@ function SearchPageContent() {
 
   const handleViewDetails = (hostel) => {
     setSelectedHostel(hostel, hostel.location || { latitude: null, longitude: null, link: "" });
+    router.push(`/hostels/${hostel._id}`);
   };
 
   const selectedInstitute = useStore((state) => state.selectedInstitute);
@@ -134,25 +160,24 @@ function SearchPageContent() {
   return (
     <div className="min-h-screen bg-[var(--background)]">
       {/* Search Header */}
-      <div className="bg-[var(--hero-gradient-from)] text-[var(--hero-text)] py-6 shadow-md">
+      <div className="bg-[var(--hero-gradient-from)] py-6 shadow-md">
         <div className="container mx-auto px-4">
           <div className="flex items-center mb-4">
             <Link href="/" className="mr-4 hover:opacity-80 transition-opacity">
               <ArrowLeft size={20} />
             </Link>
-            <h1 className="text-xl md:text-2xl font-semibold">Search Results</h1>
+            <h1 className="text-[var(--search-text)] text-xl md:text-2xl font-semibold">Search Results</h1>
           </div>
-          {/* ...existing code... */}
-          <div className="bg-[var(--hero-input-bg)] rounded-lg shadow-lg mb-4 flex relative">
+          <div className="bg-[var(--search-input-bg)] rounded-lg shadow-lg mb-4 flex relative">
             <div className="flex-1 flex items-center relative">
-              <div className="pl-4 pr-2 py-3 text-[var(--hero-input-placeholder)]">
+              <div className="pl-4 pr-2 py-3 text-[var(--search-input-placeholder)]">
                 <Search size={20} />
               </div>
               <input
                 ref={inputRef}
                 type="text"
                 placeholder="Search for institutes (e.g., Vision IAS, Shankar IAS)"
-                className="flex-1 py-3 px-2 text-[var(--hero-input-text)] outline-none"
+                className="flex-1 py-3 px-2 text-[var(--search-input-text)] outline-none"
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -166,7 +191,7 @@ function SearchPageContent() {
               />
               {showDropdown && filteredInstitutions.length > 0 && (
                 <div
-                  className="absolute left-0 right-0 top-full bg-white z-[9999] border border-[var(--border)] rounded shadow-lg max-h-60 overflow-y-auto"
+                  className="absolute left-0 right-0 top-full bg-[var(--search-input-bg)] z-[9999] border border-[var(--border)] rounded shadow-lg max-h-60 overflow-y-auto"
                   style={{ minWidth: "100%" }}
                 >
                   {filteredInstitutions.slice(0, 5).map((inst, idx) => (
@@ -174,7 +199,7 @@ function SearchPageContent() {
                       key={inst._id}
                       id={`dropdown-item-${idx}`}
                       type="button"
-                      className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer text-black"
+                      className="w-full text-left px-4 py-2 hover:bg-[var(--search-input-bg-hover)] cursor-pointer text-[var(--search-input-text)] transition-colors"
                       onMouseDown={() => handleInstitutionClick(inst.name)}
                       tabIndex={0}
                     >
@@ -185,27 +210,24 @@ function SearchPageContent() {
               )}
             </div>
             <button 
-              className="px-6 py-3 bg-[var(--hero-button-bg)] text-[var(--hero-text)] font-semibold hover:bg-[var(--hero-button-hover)]"
+              className="px-6 py-3 bg-[var(--search-button-bg)] text-[var(--search-button-text)] font-semibold hover:bg-[var(--search-button-hover)]"
               onClick={handleSearch}
             >
               Search
             </button>
           </div>
-          {/* ...existing code... */}
+
           <div className="flex flex-wrap gap-2">
             {filters.map((filterOption) => (
               <button
                 key={filterOption}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   activeFilter === filterOption
-                    ? "bg-[var(--hero-filter-active-bg)] text-[var(--hero-filter-active-text)]"
-                    : "bg-[var(--hero-filter-inactive-bg)] text-[var(--hero-text)] hover:bg-[var(--hero-filter-inactive-hover)]"
+                    ? "bg-[var(--search-filter-active-bg)] text-[var(--search-filter-active-text)]"
+                    : "bg-[var(--search-filter-inactive-bg)] text-[var(--search-text)] hover:bg-[var(--search-filter-inactive-hover)]"
                 }`}
                 onClick={() => {
                   setActiveFilter(filterOption);
-                  setTimeout(() => {
-                    handleSearch();
-                  }, 100);
                 }}
               >
                 {filterOption}
@@ -214,10 +236,10 @@ function SearchPageContent() {
           </div>
         </div>
       </div>
-      {/* ...existing code... */}
+
       <div className="container mx-auto px-4 py-8">
         {matchedInstitute && (
-          <div className="mb-8 p-4 bg-[var(--carousel-card-bg)] rounded-lg shadow-md">
+          <div className="mb-8 p-4 bg-[var(--institute-card-bg)] rounded-lg shadow-md">
             <div className="flex flex-col md:flex-row items-center gap-4">
               <div className="w-full md:w-40 h-40 relative rounded-lg overflow-hidden">
                 <Image 
@@ -228,25 +250,25 @@ function SearchPageContent() {
                 />
               </div>
               <div className="flex-1">
-                <h2 className="text-2xl font-bold mb-2">{matchedInstitute.name}</h2>
-                <p className="text-[var(--carousel-card-location)] mb-2">
+                <h2 className="text-[var(--institute-card-text)] text-2xl font-bold mb-2">{matchedInstitute.name}</h2>
+                <p className="text-[var(--institute-card-location)] mb-2">
                   <MapPin size={16} className="inline-block mr-1" />
                   {matchedInstitute.location?.address || ""}
                 </p>
-                <p className="text-[var(--foreground)]">
+                <p className="text-[var(--institute-card-sub-text)] mb-2">
                   {filteredHostels.length} accommodations found near {matchedInstitute.name}
                 </p>
               </div>
             </div>
           </div>
         )}
-        <h2 className="text-xl font-bold mb-4">
+        <h2 className="text-[var(--search-sub-text)] text-xl font-bold mb-4">
           {filteredHostels.length} {filteredHostels.length === 1 ? 'Result' : 'Results'} Found
         </h2>
         {filteredHostels.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-[var(--muted-foreground)] text-lg">No hostels found matching your search criteria.</p>
-            <p className="text-[var(--muted-foreground)]">Try adjusting your search or filters.</p>
+            <p className="text-[var(--muted)] text-lg">No hostels found matching your search criteria.</p>
+            <p className="text-[var(--muted)]">Try adjusting your search or filters.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -268,7 +290,7 @@ function SearchPageContent() {
               return (
                 <motion.div
                   key={hostel._id || hostel.id || index}
-                  className="bg-[var(--hostel-card-bg)] rounded-lg shadow-md overflow-hidden"
+                  className="bg-[var(--card-bg)] rounded-lg shadow-md overflow-hidden"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
@@ -280,20 +302,20 @@ function SearchPageContent() {
                       fill
                       style={{ objectFit: 'cover' }}
                     />
-                    <div className="absolute top-3 right-3 bg-[var(--hostel-gender-badge-bg)] text-[var(--hostel-gender-badge-text)] px-3 py-1 rounded-full text-sm font-medium shadow-sm">
+                    <div className="absolute top-3 right-3 bg-[var(--gender-badge-bg)] text-[var(--gender-badge-text)] px-3 py-1 rounded-full text-sm font-medium shadow-sm">
                       {hostel.gender}
                     </div>
                   </div>
                   <div className="p-4">
-                    <h3 className="text-lg font-bold mb-1">{hostel.name}</h3>
-                    <p className="text-[var(--hostel-location-text)] text-sm mb-2 flex items-center">
+                    <h3 className="text-[var(--card-text)] text-lg font-bold mb-1">{hostel.name}</h3>
+                    <p className="text-[var(--card-sub-text)] text-sm mb-2 flex items-center">
                       <MapPin size={14} className="mr-1" />
                       {typeof hostel.location === "object"
                         ? hostel.location?.address || ""
                         : hostel.location || ""}
                     </p>
                     <div className="flex items-center gap-2 mb-3 flex-wrap">
-                      <span className="bg-[var(--hostel-distance-badge-bg)] text-[var(--hostel-distance-badge-text)] px-2 py-1 rounded text-xs font-medium">
+                      <span className="bg-[var(--distance-badge-bg)] text-[var(--distance-badge-text)] px-2 py-1 rounded text-xs font-medium">
                         {distanceKm !== null
                           ? distanceKm < 1
                             ? `${(distanceKm * 1000).toFixed(0)} m`
@@ -305,26 +327,26 @@ function SearchPageContent() {
                         ? Array.from(new Set(hostel.rooms.map(r => r.type))).map((type, idx) => (
                             <span
                               key={type + idx}
-                              className="bg-[var(--hostel-room-badge-bg)] text-[var(--hostel-room-badge-text)] px-2 py-1 rounded text-xs font-medium"
+                              className="bg-[var(--room-badge-bg)] text-[var(--room-badge-text)] px-2 py-1 rounded text-xs font-medium"
                             >
                               {type}
                             </span>
                           ))
                         : (
-                            <span className="bg-[var(--hostel-room-badge-bg)] text-[var(--hostel-room-badge-text)] px-2 py-1 rounded text-xs font-medium">
+                            <span className="bg-[var(--room-badge-bg)] text-[var(--room-badge-text)] px-2 py-1 rounded text-xs font-medium">
                               {hostel.roomType || 'Room'}
                             </span>
                           )}
                     </div>
                     <div className="flex flex-wrap gap-1 mb-4">
                       {hostel.amenities.slice(0, 4).map((amenity, i) => (
-                        <span key={amenity + i} className="bg-[var(--hostel-amenity-bg)] text-[var(--hostel-amenity-text)] px-2 py-1 rounded-full text-xs flex items-center">
+                        <span key={amenity + i} className="bg-[var(--amenity-bg)] text-[var(--amenity-text)] px-2 py-1 rounded-full text-xs flex items-center">
                           {amenity}
                         </span>
                       ))}
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-lg font-bold">
+                      <span className="text-[var(--price-text)] text-lg font-bold">
                         {/* Price display: show low-high if multiple room types, else single price */}
                         {Array.isArray(hostel.rooms) && hostel.rooms.length > 0
                           ? (() => {
@@ -343,15 +365,15 @@ function SearchPageContent() {
                               }
                             })()
                           : (hostel.price ? `₹${hostel.price}` : 'N/A')}
-                        <span className="text-base text-[var(--muted-foreground)] font-normal">/month</span>
+                        <span className="text-base text-[var(--price-text)] font-normal">/month</span>
                       </span>
-                      <Link
+                      <button
                         href={`/hostels/${hostel._id}`}
-                        className="bg-[var(--hostel-explore-button-bg)] text-white px-4 py-2 rounded hover:bg-[var(--hostel-explore-button-hover)] transition-colors text-sm font-medium"
+                        className="bg-[var(--button-bg)] text-[var(--button-text)] px-4 py-2 rounded hover:bg-[var(--button-bg-hover)] transition-colors text-sm font-medium"
                         onClick={() => handleViewDetails(hostel)}
                       >
                         View Details
-                      </Link>
+                      </button>
                     </div>
                   </div>
                 </motion.div>

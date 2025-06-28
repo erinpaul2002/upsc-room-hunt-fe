@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { MapPin, Navigation } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { amenityIcons } from "../data/hostels";
 import useStore from "../store/store"; // adjust path if needed
@@ -32,7 +31,7 @@ export default function HostelSection() {
                 {hostels.map((hostel, index) => (
                     <motion.div
                         key={hostel._id}
-                        className="bg-[var(--hostel-card-bg)] rounded-lg shadow-md overflow-hidden"
+                        className="bg-[var(--card-bg)] rounded-lg shadow-md overflow-hidden"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3, delay: index * 0.1 }}
@@ -43,14 +42,14 @@ export default function HostelSection() {
                                 alt={hostel.name}
                                 className="w-full h-full object-cover"
                             />
-                            <div className="absolute top-2 right-2 bg-[var(--hostel-gender-badge-bg)] text-[var(--hostel-gender-badge-text)] px-2 py-1 rounded text-sm font-medium">
+                            <div className="absolute top-2 right-2 bg-[var(--gender-badge-bg)] text-[var(--gender-badge-text)] px-2 py-1 rounded text-sm font-medium">
                                 {hostel.gender}
                             </div>
                         </div>
                         <div className="p-4">
                             <div className="flex justify-between items-start mb-2">
-                                <h3 className="font-bold text-lg">{hostel.name}</h3>
-                                <span className="text-[var(--primary)] font-bold">
+                                <h3 className="text-[var(--card-text)] font-bold text-lg">{hostel.name}</h3>
+                                <span className="text-[var(--price-text)] font-bold">
                                     {/* Show price range if multiple room types exist */}
                                     {hostel.rooms && hostel.rooms.length > 0
                                         ? (() => {
@@ -64,7 +63,7 @@ export default function HostelSection() {
                                         : "N/A"}
                                 </span>
                             </div>
-                            <div className="flex items-center text-[var(--hostel-location-text)] mb-3 text-sm">
+                            <div className="flex items-center text-[var(--card-sub-text)] mb-3 text-sm">
                                 <MapPin size={16} className="mr-1" />
                                 <span>{hostel.location?.address || "No address"}</span>
                             </div>
@@ -73,13 +72,13 @@ export default function HostelSection() {
                                     ? Array.from(new Set(hostel.rooms.map(r => r.type))).map((type) => (
                                         <span
                                             key={type}
-                                            className="bg-[var(--hostel-room-badge-bg)] text-[var(--hostel-room-badge-text)] text-xs px-2 py-1 rounded-full mr-2 last:mr-0"
+                                            className="bg-[var(--room-badge-bg)] text-[var(--room-badge-text)] text-xs px-2 py-1 rounded-full mr-2 last:mr-0"
                                         >
                                             {type}
                                         </span>
                                     ))
                                     : (
-                                        <span className="bg-[var(--hostel-room-badge-bg)] text-[var(--hostel-room-badge-text)] text-xs px-2 py-1 rounded-full">
+                                        <span className="bg-[var(--room-badge-bg)] text-[var(--room-badge-text)] text-xs px-2 py-1 rounded-full">
                                             Room
                                         </span>
                                     )}
@@ -88,32 +87,31 @@ export default function HostelSection() {
                                 {hostel.amenities?.slice(0, 4).map((amenity) => (
                                     <div
                                         key={amenity}
-                                        className="flex items-center bg-[var(--hostel-amenity-bg)] text-[var(--hostel-amenity-text)] px-2 py-1 rounded-full text-xs"
+                                        className="flex items-center bg-[var(--amenity-bg)] text-[var(--amenity-text)] px-2 py-1 rounded-full text-xs"
                                     >
                                         <span className="mr-1">{amenityIcons[amenity]}</span>
                                         {amenity}
                                     </div>
                                 ))}
                             </div>
-                            <Link
-                                href={`/details/${hostel._id}`}
-                                className="block w-full bg-[var(--primary)] text-[var(--primary-foreground)] text-center py-2 rounded-md hover:bg-[var(--primary)]/90 transition-colors mt-2 font-semibold"
-                                onClick={() => setSelectedHostel(hostel)}
+                            <button
+                                onClick={() => { router.push(`/details/${hostel._id}`); setSelectedHostel(hostel); }}
+                                className="block w-full bg-[var(--button-bg)] text-[var(--button-text)] text-center py-2 rounded-md hover:bg-[var(--button-bg-hover)] transition-colors mt-2 font-semibold"
                             >
                                 View Details
-                            </Link>
+                            </button>
                         </div>
                     </motion.div>
                 ))}
             </div>
 
             <div className="mt-8 text-center">
-                <Link
-                    href="/search"
-                    className="inline-block bg-[var(--hostel-explore-button-bg)] text-white font-medium px-6 py-3 rounded-md hover:bg-[var(--hostel-explore-button-hover)] transition-colors"
+                <button
+                    onClick={() => router.push("/explore")}
+                    className="inline-block bg-[var(--button-bg)] text-[var(--button-text)] font-medium px-6 py-3 rounded-md hover:bg-[var(--button-bg-hover)] transition-colors"
                 >
                     Explore All Hostels
-                </Link>
+                </button>
             </div>
         </section>
     );

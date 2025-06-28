@@ -15,7 +15,7 @@ function HostelDetailHeader({ onBack }) {
   return (
     <div className="flex items-center justify-between mb-8 gap-4">
       <button
-        className="flex items-center text-[var(--primary)] hover:underline font-semibold text-lg gap-2"
+        className="flex items-center text-[var(--button-bg)] hover:underline font-semibold text-lg gap-2"
         onClick={onBack}
       >
         <ArrowLeft size={22} className="mr-2" />
@@ -23,7 +23,7 @@ function HostelDetailHeader({ onBack }) {
       </button>
       <Link
         href="/search"
-        className="bg-[var(--hostel-explore-button-bg)] text-white px-7 py-2.5 rounded-lg hover:bg-[var(--hostel-explore-button-hover)] transition-colors font-semibold shadow-md border border-[var(--border)]"
+        className="bg-[var(--button-bg)] text-[var(--button-text)] px-7 py-2.5 rounded-lg hover:bg-[var(--button-bg-hover)] transition-colors font-semibold shadow-md border border-[var(--border)]"
       >
         Explore More Hostels
       </Link>
@@ -46,18 +46,18 @@ function HostelCard({ hostel, images, gender, address, roomTypes, distance, maps
   // Price display: if more than one room, show as low-high, else show single price
   let priceDisplay = "-";
   if (roomTypes.length === 1) {
-    priceDisplay = roomTypes[0].price;
+    priceDisplay = `₹${roomTypes[0].price}`;
   } else if (roomTypes.length > 1) {
     const prices = roomTypes.map(r => r.price).filter(p => typeof p === 'number' || !isNaN(Number(p))).map(Number);
     if (prices.length > 0) {
       const min = Math.min(...prices);
       const max = Math.max(...prices);
-      priceDisplay = min === max ? `${min}` : `${min} - ${max}`;
+      priceDisplay = min === max ? `₹${min}` : `₹${min} - ₹${max}`;
     }
   }
 
   return (
-    <div className="bg-[var(--hostel-card-bg)] rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row border border-[var(--border)] transition-transform hover:scale-[1.01]">
+    <div className="bg-[var(--card-bg)] rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row border border-[var(--border)] transition-transform hover:scale-[1.01]">
       {/* Image Section */}
       <div className="relative w-full md:w-1/3 h-60 md:h-auto min-h-[240px]">
         <Image
@@ -68,26 +68,26 @@ function HostelCard({ hostel, images, gender, address, roomTypes, distance, maps
           className="rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none"
           priority
         />
-        <span className="absolute top-4 right-4 bg-[var(--hostel-gender-badge-bg)] text-[var(--hostel-gender-badge-text)] px-4 py-1 rounded-full text-base font-semibold shadow-lg border border-[var(--border)]">
+        <span className="absolute top-4 right-4 bg-[var(--gender-badge-bg)] text-[var(--gender-badge-text)] px-4 py-1 rounded-full text-base font-semibold shadow-lg border border-[var(--border)]">
           {gender}
         </span>
       </div>
       {/* Details Section */}
       <div className="flex-1 p-6 md:p-8 flex flex-col gap-4 justify-between">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-2">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight leading-tight text-[var(--primary)]">{hostel.name}</h1>
-          <span className="text-2xl font-bold text-[var(--primary)]">
-            {priceDisplay} <span className="text-base text-[var(--muted-foreground)]">/month</span>
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight leading-tight text-[var(--card-text)]">{hostel.name}</h1>
+          <span className="text-2xl font-bold text-[var(--price-text)]">
+            {priceDisplay} <span className="text-base text-[var(--price-text)]">/month</span>
           </span>
         </div>
         <div className="flex flex-wrap items-center gap-3 mb-2">
-          <span className="bg-[var(--hostel-distance-badge-bg)] text-[var(--hostel-distance-badge-text)] px-4 py-1 rounded-full text-xs font-semibold border border-[var(--border)]">
+          <span className="bg-[var(--distance-badge-bg)] text-[var(--distance-badge-text)] px-4 py-1 rounded-full text-xs font-semibold border border-[var(--border)]">
             {distanceDisplay} from institute
           </span>
         </div>
         {/* Location & Contact Section inside Hostel Card */}
-        <div className="flex flex-col md:flex-row md:items-center gap-4 bg-[var(--secondary)] rounded-lg p-4 shadow border border-[var(--border)]">
-          <div className="flex-1 flex items-center text-[var(--hostel-location-text)] gap-2">
+        <div className="flex flex-col md:flex-row md:items-center gap-4 bg-[var(--card-bg)] rounded-lg p-4 shadow border border-[var(--border)]">
+          <div className="flex-1 flex items-center text-[var(--card-location-text)] gap-2">
             <MapPin size={18} className="mr-1" />
             <span className="text-base font-medium truncate">{address}</span>
           </div>
@@ -97,14 +97,14 @@ function HostelCard({ hostel, images, gender, address, roomTypes, distance, maps
                 href={mapsLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--primary)] text-white rounded-lg font-semibold shadow hover:bg-[var(--primary)]/90 transition-colors w-fit"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--button-bg)] text-[var(--button-text)] rounded-lg font-semibold shadow hover:bg-[var(--button-bg-hover)] transition-colors w-fit"
                 title="Directions"
               >
                 <MapPin size={18} className="mr-1" />
                 Directions
               </a>
             ) : null}
-            <span className="font-semibold">Phone: <span className="font-normal">{contact}</span></span>
+            <span className="font-semibold text-[var(--card-sub-text)]">Phone: <span className="font-normal">{contact}</span></span>
           </div>
         </div>
       </div>
@@ -115,12 +115,12 @@ function HostelCard({ hostel, images, gender, address, roomTypes, distance, maps
 // Section: Room Types & Pricing
 function RoomTypesSection({ roomTypes }) {
   return (
-    <div className="mt-12 bg-[var(--secondary)] rounded-xl p-8 shadow-lg border border-[var(--border)]">
-      <h2 className="text-2xl font-bold mb-6 tracking-tight">Room Types & Pricing</h2>
+    <div className="mt-12 bg-[var(--card-bg)] rounded-xl p-8 shadow-lg border border-[var(--border)]">
+      <h2 className="text-2xl font-bold mb-6 tracking-tight text-[var(--card-text)]">Room Types & Pricing</h2>
       <div className="overflow-x-auto">
         <table className="min-w-full text-base">
           <thead>
-            <tr className="text-left border-b border-[var(--border)]">
+            <tr className="text-[var(--card-sub-text)] text-left border-b border-[var(--border)]">
               <th className="py-3 pr-6 font-semibold">Type</th>
               <th className="py-3 pr-6 font-semibold">Vacancy</th>
               <th className="py-3 pr-6 font-semibold">Rent (₹/month)</th>
@@ -130,7 +130,7 @@ function RoomTypesSection({ roomTypes }) {
           </thead>
           <tbody>
             {roomTypes.map((room, idx) => (
-              <tr key={idx} className="border-b border-dashed border-[var(--border)] last:border-none hover:bg-[var(--hostel-card-bg)]/60 transition-colors">
+              <tr key={idx} className="border-b border-dashed border-[var(--border)] last:border-none hover:bg-[var(--card-bg)]/60 transition-colors">
                 <td className="py-3 pr-6">{room.type}</td>
                 <td className="py-3 pr-6">{room.vacancy}</td>
                 <td className="py-3 pr-6">{room.price}</td>
@@ -148,13 +148,13 @@ function RoomTypesSection({ roomTypes }) {
 // Section: Facilities
 function FacilitiesSection({ facilities, amenityIcons }) {
   return (
-    <div className="mt-12 bg-[var(--secondary)] rounded-xl p-8 shadow-lg border border-[var(--border)]">
-      <h2 className="text-2xl font-bold mb-4 tracking-tight">Facilities</h2>
+    <div className="mt-12 bg-[var(--card-bg)] rounded-xl p-8 shadow-lg border border-[var(--border)]">
+      <h2 className="text-2xl font-bold mb-4 tracking-tight text-[var(--card-text)]">Facilities</h2>
       <div className="flex flex-wrap gap-3">
         {facilities.map((amenity) => (
           <span
             key={amenity}
-            className="flex items-center bg-[var(--hostel-amenity-bg)] text-[var(--hostel-amenity-text)] px-4 py-1.5 rounded-full text-sm font-medium shadow border border-[var(--border)] gap-2"
+            className="flex items-center bg-[var(--amenity-bg)] text-[var(--amenity-text)] px-4 py-1.5 rounded-full text-sm font-medium shadow border border-[var(--border)] gap-2"
           >
             <span className="mr-1 text-lg">{amenityIcons[amenity] || ""}</span>
             {amenity}
@@ -166,31 +166,31 @@ function FacilitiesSection({ facilities, amenityIcons }) {
 }
 
 // Section: Location / Contacts
-function LocationContactsSection({ address, mapsLink, contact }) {
-  return (
-    <div className="mt-12 bg-[var(--secondary)] rounded-xl p-8 shadow-lg border border-[var(--border)]">
-      <h2 className="text-2xl font-bold mb-4 tracking-tight">Location / Contacts</h2>
-      <div className="mb-3">
-        <span className="font-semibold">Address: </span>
-        <span>{address}</span>
-      </div>
-      <div className="flex flex-col md:flex-row md:items-center gap-4">
-        {typeof mapsLink === "string" && mapsLink.trim().length > 0 ? (
-          <a
-            href={mapsLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[var(--primary)] underline font-medium hover:text-[var(--primary)]/80"
-          >
-            Navigate to location
-          </a>
-        ) : null}
-        <span className="font-semibold">Phone: </span>
-        <span>{contact}</span>
-      </div>
-    </div>
-  );
-}
+// function LocationContactsSection({ address, mapsLink, contact }) {
+//   return (
+//     <div className="mt-12 bg-[var(--secondary)] rounded-xl p-8 shadow-lg border border-[var(--border)]">
+//       <h2 className="text-2xl font-bold mb-4 tracking-tight">Location / Contacts</h2>
+//       <div className="mb-3">
+//         <span className="font-semibold">Address: </span>
+//         <span>{address}</span>
+//       </div>
+//       <div className="flex flex-col md:flex-row md:items-center gap-4">
+//         {typeof mapsLink === "string" && mapsLink.trim().length > 0 ? (
+//           <a
+//             href={mapsLink}
+//             target="_blank"
+//             rel="noopener noreferrer"
+//             className="text-[var(--primary)] underline font-medium hover:text-[var(--primary)]/80"
+//           >
+//             Navigate to location
+//           </a>
+//         ) : null}
+//         <span className="font-semibold">Phone: </span>
+//         <span>{contact}</span>
+//       </div>
+//     </div>
+//   );
+// }
 
 // Section: Gallery
 function GallerySection({ images }) {
@@ -244,11 +244,11 @@ export default function HostelDetailPage() {
       <div className="min-h-screen flex items-center justify-center bg-[var(--background)]">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2">Hostel Not Found</h2>
-          <p className="text-[var(--muted-foreground)] mb-4">
+          <p className="text-[var(--muted)] mb-4">
             The requested hostel does not exist.
           </p>
           <button
-            className="inline-flex items-center px-4 py-2 bg-[var(--primary)] text-white rounded hover:bg-[var(--primary)]/90"
+            className="inline-flex items-center px-4 py-2 bg-[var(--primary)] text-[var(--background)] rounded hover:bg-[var(--primary)]/90"
             onClick={() => router.back()}
           >
             <ArrowLeft className="mr-2" size={18} />

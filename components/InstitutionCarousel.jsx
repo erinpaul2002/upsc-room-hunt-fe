@@ -128,12 +128,12 @@ export default function InstitutionCarousel() {
                         {extendedInstitutions.map((institute, index) => (
                             <motion.div
                                 key={index + "-" + (institute._id || index)}
-                                className="bg-[var(--carousel-card-bg)] rounded-lg shadow-md overflow-hidden flex-shrink-0"
+                                className="bg-[var(--institute-card-bg)] rounded-lg shadow-md overflow-hidden flex-shrink-0"
                                 style={{
                                     minWidth: cardWidth,
                                     maxWidth: cardWidth,
                                     width: cardWidth,
-                                    boxShadow: "0 4px 6px var(--carousel-card-shadow)",
+                                    boxShadow: "0 4px 6px var(--institute-card-shadow)",
                                 }}
                                 whileHover={{
                                     scale: 1.05,
@@ -149,10 +149,10 @@ export default function InstitutionCarousel() {
                                     />
                                 </div>
                                 <div className="p-4">
-                                    <h3 className="font-bold text-lg mb-1">
+                                    <h3 className="font-bold text-lg mb-1 text-[var(--institute-card-text)]">
                                         {institute.name}
                                     </h3>
-                                    <p className="text-[var(--carousel-card-location)] text-sm mb-2">
+                                    <p className="text-[var(--institute-card-location)] text-sm mb-2">
                                         {institute.location?.address || "No address available"}
                                     </p>
                                 </div>
