@@ -2,149 +2,149 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --background: #f7f8fa;
-  --foreground: #1a237e;
-  --primary: #3b3bff;
-  --primary-dark: #2323a0;
-  --accent: #ff9800;
-  --accent-dark: #ff6d00;
-  --muted: #e0e7ef;
-  --border: #d1d5db;
-  --button-bg: #3b3bff;
-  --button-bg-hover: #2323a0;
-  --button-text: #fff;
-  --button-text-secondary: #2323a0;
-  --amenity-text: #2323a0;
-  --amenity-bg: #e0e7ef;
-  --room-badge-bg: #e0e7ef;
-  --room-badge-text: #2323a0;
-  --price-text: #ff9800;
+  --background: #FFF9F4;
+  --foreground: #1E1E1E;
+  --primary: #F75C03;
+  --primary-dark: #C84B02;
+  --accent: #FFB627;
+  --accent-dark: #F9A602;
+  --muted: #7B7B7B;
+  --border: #E0E0E0;
 
-  --gender-badge-text: #fff;
-  --gender-badge-bg: #3b3bff;
+  --button-bg: var(--primary);
+  --button-bg-hover: var(--primary-dark);
+  --button-text: #FFFFFF;
+  --button-text-secondary: var(--primary);
 
-  --card-bg: #fff;
-  --card-shadow: rgba(59,59,255,0.08);
-  --card-text: #1a237e;
-  --card-sub-text: #ff9800;
+  --amenity-text: var(--foreground);
+  --amenity-bg: #FFF2E2;
 
-  --institute-card-bg: #f3f6fa;
-  --institute-card-shadow: #e0e7ef;
-  --institute-card-text: #3b3bff;
-  --institute-card-location: #2323a0;
-  --institute-card-sub-text: #ff9800;
+  --room-badge-bg: #FFD8D8;
+  --room-badge-text: #7A0000;
+  --price-text: #3D7A00;
 
-  --distance-badge-bg: #ff9800;
-  --distance-badge-text: #fff;
+  --gender-badge-text: #3B3B3B;
+  --gender-badge-bg: #FFF0F0;
 
-  --search-text: #3b3bff;
-  --search-sub-text: #ff9800;
-  --search-input-bg: #f3f6fa;
-  --search-input-bg-hover: #fff;
-  --search-input-text: #2323a0;
-  --search-input-placeholder: #ff9800;
-  --search-button-bg: #3b3bff;
-  --search-button-hover: #2323a0;
-  --search-button-text: #fff;
-  --search-filter-active-bg: #ff9800;
-  --search-filter-active-hover: #2323a0;
-  --search-filter-active-text: #fff;
-  --search-filter-inactive-bg: #f3f6fa;
-  --search-filter-inactive-hover: #e0e7ef;
-  --search-filter-inactive-text: #3b3bff;
+  --card-bg: #FFFFFF;
+  --card-shadow: rgba(0, 0, 0, 0.05);
+  --card-text: var(--foreground);
+  --card-sub-text: var(--muted);
 
-  /* Header section variables */
-  --header-bg: #3b3bff;
-  --header-nav-text: #fff;
-  --header-nav-hover: #ff9800;
-  --header-button-hover-bg: #e0e7ef;
-  --header-shadow: #3b3bff;
+  --institute-card-bg: var(--card-bg);
+  --institute-card-shadow: var(--card-shadow);
+  --institute-card-text: var(--card-text);
+  --institute-card-location: var(--muted);
+  --institute-card-sub-text: var(--muted);
 
-  /* Hero section specific variables */
-  --hero-gradient-from: #e0e7ef;
-  --hero-gradient-to: #ff9800;
-  --hero-overlay: #fff;
+  --distance-badge-bg: #FFF4D4;
+  --distance-badge-text: #7C5100;
 
-  /* Footer section variables */
-  --footer-bg: #fff;
-  --footer-text: #3b3bff;
-  --footer-muted-text: #ff9800;
-  --footer-border: #3b3bff;
-  --footer-hover-text: #ff9800;
+  --search-text: var(--foreground);
+  --search-sub-text: var(--muted);
+  --search-input-bg: #FFFFFF;
+  --search-input-bg-hover: #FFF4EC;
+  --search-input-text: var(--foreground);
+  --search-input-placeholder: #A0A0A0;
+  --search-button-bg: var(--primary);
+  --search-button-hover: var(--primary-dark);
+  --search-button-text: #FFFFFF;
+  --search-filter-active-bg: var(--primary);
+  --search-filter-active-hover: var(--primary-dark);
+  --search-filter-active-text: #FFFFFF;
+  --search-filter-inactive-bg: #FFF1E7;
+  --search-filter-inactive-hover: #FFD5B8;
+  --search-filter-inactive-text: var(--primary);
+
+  --header-bg: #312F2F;
+  --header-nav-text: #FFFFFF;
+  --header-nav-hover: var(--accent);
+  --header-button-hover-bg: var(--primary-dark);
+  --header-shadow: rgba(0, 0, 0, 0.04);
+
+  --hero-gradient-from: #FFF1E6;
+  --hero-gradient-to: #FFF9F4;
+  --hero-overlay: rgba(255, 255, 255, 0.6);
+
+  --footer-bg: #312F2F;
+  --footer-text: #DCDCDC;
+  --footer-muted-text: #9E9E9E;
+  --footer-border: #4B4B4B;
+  --footer-hover-text: var(--accent);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #181a20;
-    --foreground: #e0e7ef;
-    --primary: #7c83ff;
-    --primary-dark: #3b3bff;
-    --accent: #ffb74d;
-    --accent-dark: #ff9800;
-    --muted: #23263a;
-    --border: #23263a;
+    --background: #1B1B1B;
+    --foreground: #FAFAFA;
+    --primary: #F75C03;
+    --primary-dark: #C84B02;
+    --accent: #FFB627;
+    --accent-dark: #F9A602;
+    --muted: #BDBDBD;
+    --border: #3A3A3A;
 
-    --header-bg: #2323a0;
-    --header-nav-text: #e0e7ef;
-    --header-nav-hover: #ffb74d;
-    --header-button-hover-bg: #23263a;
-    --header-shadow: #3b3bff;
+    --header-bg: #121212;
+    --header-nav-text: #FAFAFA;
+    --header-nav-hover: var(--accent);
+    --header-button-hover-bg: var(--primary-dark);
+    --header-shadow: rgba(255, 255, 255, 0.05);
 
-    --hero-gradient-from: #23263a;
-    --hero-gradient-to: #7c83ff;
-    --hero-overlay: #181a20;
+    --hero-gradient-from: #272727;
+    --hero-gradient-to: #fe4646;
+    --hero-overlay: rgba(0, 0, 0, 0.5);
 
-    --button-bg: #7c83ff;
-    --button-bg-hover: #3b3bff;
-    --button-text: #181a20;
-    --button-text-secondary: #e0e7ef;
+    --button-bg: var(--primary);
+    --button-bg-hover: var(--primary-dark);
+    --button-text: #FFFFFF;
+    --button-text-secondary: var(--primary);
 
-    --amenity-text: #e0e7ef;
-    --amenity-bg: #23263a;
+    --amenity-text: var(--foreground);
+    --amenity-bg: #2C2C2C;
 
-    --room-badge-bg: #23263a;
-    --room-badge-text: #e0e7ef;
+    --room-badge-bg: #4D2C2C;
+    --room-badge-text: #FFCCCC;
 
-    --price-text: #ffb74d;
+    --price-text: #91D43B;
 
-    --gender-badge-text: #181a20;
-    --gender-badge-bg: #7c83ff;
+    --gender-badge-text: #F8F8F8;
+    --gender-badge-bg: #4D4D4D;
 
-    --card-bg: #23263a;
-    --card-shadow: #3b3bff;
-    --card-text: #e0e7ef;
-    --card-sub-text: #ffb74d;
+    --card-bg: #2C2C2C;
+    --card-shadow: rgba(255, 255, 255, 0.05);
+    --card-text: var(--foreground);
+    --card-sub-text: var(--muted);
 
-    --institute-card-bg: #23263a;
-    --institute-card-shadow: #181a20;
-    --institute-card-text: #ffb74d;
-    --institute-card-location: #7c83ff;
-    --institute-card-sub-text: #e0e7ef;
+    --institute-card-bg: var(--card-bg);
+    --institute-card-shadow: var(--card-shadow);
+    --institute-card-text: var(--card-text);
+    --institute-card-location: var(--muted);
+    --institute-card-sub-text: var(--muted);
 
-    --distance-badge-bg: #ffb74d;
-    --distance-badge-text: #181a20;
+    --distance-badge-bg: #3D3D2A;
+    --distance-badge-text: #FFD95C;
 
-    --search-text: #e0e7ef;
-    --search-sub-text: #ffb74d;
-    --search-input-bg: #23263a;
-    --search-input-bg-hover: #181a20;
-    --search-input-text: #e0e7ef;
-    --search-input-placeholder: #ffb74d;
-    --search-button-bg: #7c83ff;
-    --search-button-hover: #3b3bff;
-    --search-button-text: #181a20;
-    --search-filter-active-bg: #ffb74d;
-    --search-filter-active-hover: #3b3bff;
-    --search-filter-active-text: #181a20;
-    --search-filter-inactive-bg: #23263a;
-    --search-filter-inactive-hover: #181a20;
-    --search-filter-inactive-text: #7c83ff;
+    --search-text: var(--foreground);
+    --search-sub-text: var(--muted);
+    --search-input-bg: #1E1E1E;
+    --search-input-bg-hover: #2A2A2A;
+    --search-input-text: var(--foreground);
+    --search-input-placeholder: #AAAAAA;
+    --search-button-bg: var(--primary);
+    --search-button-hover: var(--primary-dark);
+    --search-button-text: #FFFFFF;
+    --search-filter-active-bg: var(--primary);
+    --search-filter-active-hover: var(--primary-dark);
+    --search-filter-active-text: #FFFFFF;
+    --search-filter-inactive-bg: #3B3B3B;
+    --search-filter-inactive-hover: #555555;
+    --search-filter-inactive-text: var(--accent);
 
-    --footer-bg: #181a20;
-    --footer-text: #7c83ff;
-    --footer-muted-text: #ffb74d;
-    --footer-border: #7c83ff;
-    --footer-hover-text: #e0e7ef;
+    --footer-bg: #181818;
+    --footer-text: #AAAAAA;
+    --footer-muted-text: #888888;
+    --footer-border: #2E2E2E;
+    --footer-hover-text: var(--accent);
   }
 }
 
