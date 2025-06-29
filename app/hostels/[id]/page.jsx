@@ -193,18 +193,141 @@ function FacilitiesSection({ facilities, amenityIcons }) {
 //   );
 // }
 
+
 // Section: Gallery
 function GallerySection({ images }) {
+  // If images is empty, use 10 placeholders
+  const displayImages =
+    images.length === 0
+      ? Array(10).fill("/placeholder-image.png")
+      : images;
+
+  const imagesPerPage = 4;
+  const [page, setPage] = useState(0);
+  const totalPages = Math.ceil(displayImages.length / imagesPerPage);
+
+  // Modal state
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalIndex, setModalIndex] = useState(0);
+
+  const handlePrev = () => setPage((p) => Math.max(0, p - 1));
+  const handleNext = () => setPage((p) => Math.min(totalPages - 1, p + 1));
+
+  const paginatedImages = displayImages.slice(
+    page * imagesPerPage,
+    page * imagesPerPage + imagesPerPage
+  );
+
+  // Modal navigation
+  const handleModalPrev = (e) => {
+    e.stopPropagation();
+    setModalIndex((idx) => (idx === 0 ? displayImages.length - 1 : idx - 1));
+  };
+  const handleModalNext = (e) => {
+    e.stopPropagation();
+    setModalIndex((idx) => (idx === displayImages.length - 1 ? 0 : idx + 1));
+  };
+
+  // Close modal on Escape
+  useEffect(() => {
+    if (!modalOpen) return;
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") setModalOpen(false);
+      if (e.key === "ArrowLeft") setModalIndex((idx) => (idx === 0 ? displayImages.length - 1 : idx - 1));
+      if (e.key === "ArrowRight") setModalIndex((idx) => (idx === displayImages.length - 1 ? 0 : idx + 1));
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [modalOpen, displayImages.length]);
+
   return (
     <div className="mt-12">
       <h2 className="text-2xl font-bold mb-6 tracking-tight">Gallery</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {images.map((img, idx) => (
-          <div key={idx} className="relative h-36 rounded-xl overflow-hidden shadow-lg border border-[var(--border)] hover:scale-[1.03] transition-transform">
-            <Image src={img} alt={`Hostel Image ${idx + 1}`} fill style={{ objectFit: "cover" }} />
+        {paginatedImages.map((img, idx) => (
+          <div
+            key={idx}
+            className="relative h-36 rounded-xl overflow-hidden shadow-lg border border-[var(--border)] hover:scale-[1.03] transition-transform cursor-pointer"
+            onClick={() => {
+              setModalIndex(page * imagesPerPage + idx);
+              setModalOpen(true);
+            }}
+          >
+            <Image src={img} alt={`Hostel Image ${page * imagesPerPage + idx + 1}`} fill style={{ objectFit: "cover" }} />
           </div>
         ))}
       </div>
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center gap-4 mt-4">
+          <button
+            onClick={handlePrev}
+            disabled={page === 0}
+            className="px-4 py-2 rounded bg-[var(--button-bg)] text-[var(--button-text)] font-semibold shadow disabled:opacity-50"
+          >
+            Prev
+          </button>
+          <span className="font-medium text-[var(--card-text)]">
+            Page {page + 1} of {totalPages}
+          </span>
+          <button
+            onClick={handleNext}
+            disabled={page === totalPages - 1}
+            className="px-4 py-2 rounded bg-[var(--button-bg)] text-[var(--button-text)] font-semibold shadow disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+      )}
+
+      {/* Modal */}
+      {modalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+          onClick={() => setModalOpen(false)}
+        >
+          <div
+            className="relative bg-white rounded-lg shadow-lg max-w-3xl w-full mx-4 flex flex-col items-center"
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              className="absolute top-2 right-2 text-2xl font-bold text-gray-700 hover:text-black"
+              onClick={() => setModalOpen(false)}
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <div className="w-full flex items-center justify-center py-8 px-2">
+              <button
+                className="text-3xl px-4 py-2 text-gray-700 hover:text-black"
+                onClick={handleModalPrev}
+                aria-label="Previous"
+              >
+                &#8592;
+              </button>
+              <div className="relative w-[320px] h-[320px] md:w-[480px] md:h-[400px] flex items-center justify-center">
+                <Image
+                  src={displayImages[modalIndex]}
+                  alt={`Gallery Image ${modalIndex + 1}`}
+                  fill
+                  style={{ objectFit: "contain", background: "#f3f4f6" }}
+                  className="rounded-lg"
+                  priority
+                />
+              </div>
+              <button
+                className="text-3xl px-4 py-2 text-gray-700 hover:text-black"
+                onClick={handleModalNext}
+                aria-label="Next"
+              >
+                &#8594;
+              </button>
+            </div>
+            <div className="pb-4 text-center text-gray-700 font-medium">
+              Image {modalIndex + 1} of {displayImages.length}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
