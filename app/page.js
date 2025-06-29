@@ -42,7 +42,9 @@ export default function Home() {
       <HeroSection />
       <div className="container mx-auto px-4 py-8">
         <InstitutionCarousel />
-        <HostelSection />
+        <div className="mt-8">
+          <HostelSection />
+        </div>
       </div>
       <Footer />
     </main>
