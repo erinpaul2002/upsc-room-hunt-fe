@@ -338,14 +338,14 @@ export default function HeroSection() {
             {/* Make this container relative so dropdown is positioned correctly */}
             <div className="flex flex-row relative items-center gap-2 w-full">
               <div className="relative flex-1 flex items-center border-b md:border-b-0 md:border-r border-[var(--border)] w-full">
-                <div className="pl-4 pr-2 py-3 text-[var(--search-input-placeholder)]">
+                <div className="pl-4 pr-2 flex items-center h-12 text-[var(--search-input-placeholder)]">
                   <Search size={20} />
                 </div>
                 <motion.input
                   ref={inputRef}
                   type="text"
-                  placeholder="Search for institutes (e.g., Vision IAS, Shankar IAS)"
-                  className="flex-1 py-3 px-2 text-[var(--search-input-text)] outline-none focus:outline-none bg-transparent transition-transform duration-200 w-full"
+                  placeholder="Search for institutes"
+                  className="flex-1 h-12 px-2 text-[var(--search-input-text)] outline-none focus:outline-none bg-transparent transition-transform duration-200 w-full"
                   value={searchQuery}
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
@@ -358,11 +358,9 @@ export default function HeroSection() {
                   aria-label="Search for institutes"
                   whileFocus={{ scale: 1.03, boxShadow: "none" }}
                 />
-              </div>
-              <div className="flex-none ml-2">
                 <motion.button
                   onClick={handleSearch}
-                  className="px-4 py-2 text-white bg-[var(--primary)] rounded-lg shadow-md flex items-center justify-center transition-all duration-200"
+                  className="h-12 px-4 ml-2 text-white bg-[var(--primary)] rounded-lg shadow-md flex items-center justify-center transition-all duration-200"
                   disabled={loading}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}

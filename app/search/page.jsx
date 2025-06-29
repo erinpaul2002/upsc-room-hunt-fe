@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useRef, Suspense } from "react";
@@ -176,7 +175,7 @@ function SearchPageContent() {
               <input
                 ref={inputRef}
                 type="text"
-                placeholder="Search for institutes (e.g., Vision IAS, Shankar IAS)"
+                placeholder="Search for institutes"
                 className="flex-1 py-3 px-2 text-[var(--search-input-text)] outline-none"
                 value={searchQuery}
                 onChange={(e) => {
@@ -210,7 +209,7 @@ function SearchPageContent() {
               )}
             </div>
             <button 
-              className="px-6 py-3 bg-[var(--search-button-bg)] text-[var(--search-button-text)] font-semibold hover:bg-[var(--search-button-hover)]"
+              className="px-6 py-3 bg-[var(--search-button-bg)] text-[var(--search-button-text)] font-semibold hover:bg-[var(--search-button-hover)] rounded"
               onClick={handleSearch}
             >
               Search

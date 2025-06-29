@@ -82,7 +82,7 @@ function HostelSearchByNameContent() {
               <input
                 ref={inputRef}
                 type="text"
-                placeholder="Search for hostels by name (e.g., Sunrise Hostel)"
+                placeholder="Search for hostels by name"
                 className="flex-1 py-3 px-2 text-[var(--search-input-text)] outline-none"
                 value={searchQuery}
                 onChange={(e) => {
@@ -120,7 +120,7 @@ function HostelSearchByNameContent() {
               )}
             </div>
             <button 
-              className="px-6 py-3 bg-[var(--search-button-bg)] text-[var(--search-button-text)] font-semibold hover:bg-[var(--search-button-hover)]"
+              className="px-6 py-3 bg-[var(--search-button-bg)] text-[var(--search-button-text)] font-semibold hover:bg-[var(--search-button-hover)] rounded"
               onClick={() => setShowDropdown(false)}
             >
               Search
