@@ -336,8 +336,8 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             {/* Make this container relative so dropdown is positioned correctly */}
-            <div className="flex flex-col md:flex-row relative items-center gap-2">
-              <div className="relative flex-1 flex items-center border-b md:border-b-0 md:border-r border-[var(--border)]">
+            <div className="flex flex-row relative items-center gap-2 w-full">
+              <div className="relative flex-1 flex items-center border-b md:border-b-0 md:border-r border-[var(--border)] w-full">
                 <div className="pl-4 pr-2 py-3 text-[var(--search-input-placeholder)]">
                   <Search size={20} />
                 </div>
@@ -345,7 +345,7 @@ export default function HeroSection() {
                   ref={inputRef}
                   type="text"
                   placeholder="Search for institutes (e.g., Vision IAS, Shankar IAS)"
-                  className="flex-1 py-3 px-2 text-[var(--search-input-text)] outline-none focus:outline-none bg-transparent transition-transform duration-200"
+                  className="flex-1 py-3 px-2 text-[var(--search-input-text)] outline-none focus:outline-none bg-transparent transition-transform duration-200 w-full"
                   value={searchQuery}
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
@@ -359,21 +359,21 @@ export default function HeroSection() {
                   whileFocus={{ scale: 1.03, boxShadow: "none" }}
                 />
               </div>
-              <div className="flex-none">
+              <div className="flex-none ml-2">
                 <motion.button
                   onClick={handleSearch}
-                  className="w-full px-4 py-2 text-white bg-[var(--primary)] rounded-lg shadow-md flex items-center justify-center transition-all duration-200"
+                  className="px-4 py-2 text-white bg-[var(--primary)] rounded-lg shadow-md flex items-center justify-center transition-all duration-200"
                   disabled={loading}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.05 }}
                   aria-label="Search"
-                  whileTap={{ scale: 0.96, backgroundColor: "var(--primary-dark)" }} // Add tap effect
+                  whileTap={{ scale: 0.96, backgroundColor: "var(--primary-dark)" }}
                   whileHover={{
                     scale: 1.08,
                     boxShadow: "0 4px 24px 0 rgba(80, 80, 200, 0.18)",
                     transition: { duration: 0.05 }
-                  }} // Add hover effect
+                  }}
                 >
                   {loading ? (
                     <svg
@@ -404,16 +404,18 @@ export default function HeroSection() {
               {/* Place dropdown here, outside the input flex row */}
               {showDropdown && filteredInstitutions.length > 0 && (
                 <motion.div
-                  className="absolute left-0 right-0 top-full mt-1 rounded-lg shadow-lg z-10 w-full"
+                  className="absolute left-0 right-0 top-full mt-1 rounded-lg shadow-lg z-10 w-full max-h-60 overflow-y-auto
+          bg-[var(--search-input-bg)]"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
                   onMouseDown={e => e.stopPropagation()}
                   style={{
                     minWidth: 0,
-                    background: "var(--search-input-bg)",
                     color: "var(--search-input-text)",
-                    boxShadow: "0 2px 16px var(--card-shadow)"
+                    boxShadow: "0 2px 16px var(--card-shadow)",
+                    marginLeft: "4px",
+                    marginRight: "4px"
                   }}
                 >
                   {filteredInstitutions.map((inst, index) => (
