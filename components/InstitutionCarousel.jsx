@@ -119,7 +119,7 @@ export default function InstitutionCarousel() {
                 />
 
                 {/* Center the carousel within the full width container */}
-                <div className="container mx-auto px-4">
+                <div className="container mx-auto px-4 py-8"> {/* Added py-8 for vertical space */}
                     <motion.div
                         className="flex"
                         style={{ gap: CARD_GAP }}
@@ -128,7 +128,7 @@ export default function InstitutionCarousel() {
                         {extendedInstitutions.map((institute, index) => (
                             <motion.div
                                 key={index + "-" + (institute._id || index)}
-                                className="bg-[var(--institute-card-bg)] rounded-lg shadow-md overflow-hidden flex-shrink-0"
+                                className="bg-[var(--institute-card-bg)] rounded-lg shadow-md overflow-hidden flex-shrink-0 transition-all duration-200 group"
                                 style={{
                                     minWidth: cardWidth,
                                     maxWidth: cardWidth,
@@ -137,7 +137,11 @@ export default function InstitutionCarousel() {
                                 }}
                                 whileHover={{
                                     scale: 1.05,
-                                    boxShadow: "0 10px 15px rgba(0, 0, 0, 0.1)",
+                                    backgroundColor: "var(--primary)",
+                                    boxShadow: "0 12px 24px var(--institute-card-shadow)",
+                                    color: "var(--button-text)",
+                                    outline: "3px solid var(--accent)", // Add accent outline on hover
+                                    outlineOffset: "0px",
                                     transition: { duration: 0.2 },
                                 }}
                             >
@@ -149,10 +153,10 @@ export default function InstitutionCarousel() {
                                     />
                                 </div>
                                 <div className="p-4">
-                                    <h3 className="font-bold text-lg mb-1 text-[var(--institute-card-text)]">
+                                    <h3 className="font-bold text-lg mb-1 text-[var(--institute-card-text)] group-hover:text-[var(--button-text)] transition-colors duration-200">
                                         {institute.name}
                                     </h3>
-                                    <p className="text-[var(--institute-card-location)] text-sm mb-2">
+                                    <p className="text-[var(--institute-card-location)] text-sm mb-2 group-hover:text-[var(--button-text)] transition-colors duration-200">
                                         {institute.location?.address || "No address available"}
                                     </p>
                                 </div>

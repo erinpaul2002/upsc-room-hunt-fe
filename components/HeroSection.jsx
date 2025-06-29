@@ -335,7 +335,8 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <div className="flex flex-col md:flex-row">
+            {/* Make this container relative so dropdown is positioned correctly */}
+            <div className="flex flex-col md:flex-row relative items-center gap-2">
               <div className="relative flex-1 flex items-center border-b md:border-b-0 md:border-r border-[var(--border)]">
                 <div className="pl-4 pr-2 py-3 text-[var(--search-input-placeholder)]">
                   <Search size={20} />
@@ -344,7 +345,7 @@ export default function HeroSection() {
                   ref={inputRef}
                   type="text"
                   placeholder="Search for institutes (e.g., Vision IAS, Shankar IAS)"
-                  className="flex-1 py-3 px-2 text-[var(--search-input-text)] outline-none bg-transparent transition-transform duration-200"
+                  className="flex-1 py-3 px-2 text-[var(--search-input-text)] outline-none focus:outline-none bg-transparent transition-transform duration-200"
                   value={searchQuery}
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
@@ -355,20 +356,24 @@ export default function HeroSection() {
                     if (searchQuery.length > 0) setShowDropdown(true);
                   }}
                   aria-label="Search for institutes"
-                  whileFocus={{ scale: 1.03, boxShadow: "0 0 0 2px #818cf8" }}
+                  whileFocus={{ scale: 1.03, boxShadow: "none" }}
                 />
               </div>
-              <div className="flex-none mt-2 md:mt-0 md:ml-2">
+              <div className="flex-none">
                 <motion.button
                   onClick={handleSearch}
                   className="w-full px-4 py-2 text-white bg-[var(--primary)] rounded-lg shadow-md flex items-center justify-center transition-all duration-200"
                   disabled={loading}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
+                  transition={{ duration: 0.05 }}
                   aria-label="Search"
-                  whileTap={{ scale: 0.96 }}
-                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.96, backgroundColor: "var(--primary-dark)" }} // Add tap effect
+                  whileHover={{
+                    scale: 1.08,
+                    boxShadow: "0 4px 24px 0 rgba(80, 80, 200, 0.18)",
+                    transition: { duration: 0.05 }
+                  }} // Add hover effect
                 >
                   {loading ? (
                     <svg
@@ -396,32 +401,46 @@ export default function HeroSection() {
                   )}
                 </motion.button>
               </div>
+              {/* Place dropdown here, outside the input flex row */}
+              {showDropdown && filteredInstitutions.length > 0 && (
+                <motion.div
+                  className="absolute left-0 right-0 top-full mt-1 rounded-lg shadow-lg z-10 w-full"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                  onMouseDown={e => e.stopPropagation()}
+                  style={{
+                    minWidth: 0,
+                    background: "var(--search-input-bg)",
+                    color: "var(--search-input-text)",
+                    boxShadow: "0 2px 16px var(--card-shadow)"
+                  }}
+                >
+                  {filteredInstitutions.map((inst, index) => (
+                    <motion.div
+                      key={inst._id}
+                      id={`dropdown-item-${index}`}
+                      className="px-4 py-2 text-left cursor-pointer"
+                      style={{
+                        background: "transparent",
+                        color: "inherit"
+                      }}
+                      onMouseDown={() => handleInstitutionClick(inst.name)}
+                      whileHover={{
+                        scale: 1.02,
+                        backgroundColor: "var(--search-filter-inactive-bg)",
+                        color: "var(--search-filter-inactive-text)"
+                      }}
+                      transition={{ duration: 0.2 }}
+                      tabIndex={0}
+                      aria-label={`Select ${inst.name}`}
+                    >
+                      {inst.name}
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
             </div>
-
-            {/* Dropdown Suggestions */}
-            {showDropdown && filteredInstitutions.length > 0 && (
-              <motion.div
-                className="absolute left-0 right-0 mt-1 bg-white rounded-lg shadow-lg z-10"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                {filteredInstitutions.map((inst, index) => (
-                  <motion.div
-                    key={inst._id}
-                    id={`dropdown-item-${index}`}
-                    className="px-4 py-2 text-left cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleInstitutionClick(inst.name)}
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.2 }}
-                    tabIndex={0}
-                    aria-label={`Select ${inst.name}`}
-                  >
-                    {inst.name}
-                  </motion.div>
-                ))}
-              </motion.div>
-            )}
           </motion.div>
 
           {/* Filters */}

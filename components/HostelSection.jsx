@@ -31,10 +31,19 @@ export default function HostelSection() {
                 {hostels.map((hostel, index) => (
                     <motion.div
                         key={hostel._id}
-                        className="bg-[var(--card-bg)] rounded-lg shadow-md overflow-hidden"
+                        className="bg-[var(--card-bg)] rounded-lg shadow-md overflow-hidden transition-all duration-200 group"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3, delay: index * 0.1 }}
+                        whileHover={{
+                            scale: 1.04,
+                            backgroundColor: "var(--primary)",
+                            boxShadow: "0 12px 24px var(--card-shadow)",
+                            color: "var(--button-text)",
+                            outline: "3px solid var(--accent)",
+                            outlineOffset: "0px",
+                            transition: { duration: 0.2 },
+                        }}
                     >
                         <div className="relative h-[200px]">
                             <img
@@ -48,8 +57,8 @@ export default function HostelSection() {
                         </div>
                         <div className="p-4">
                             <div className="flex justify-between items-start mb-2">
-                                <h3 className="text-[var(--card-text)] font-bold text-lg">{hostel.name}</h3>
-                                <span className="text-[var(--price-text)] font-bold">
+                                <h3 className="text-[var(--card-text)] group-hover:text-[var(--button-text)] font-bold text-lg transition-colors duration-200">{hostel.name}</h3>
+                                <span className="text-[var(--price-text)] group-hover:text-[var(--button-text)] font-bold transition-colors duration-200">
                                     {/* Show price range if multiple room types exist */}
                                     {hostel.rooms && hostel.rooms.length > 0
                                         ? (() => {
@@ -63,7 +72,7 @@ export default function HostelSection() {
                                         : "N/A"}
                                 </span>
                             </div>
-                            <div className="flex items-center text-[var(--card-sub-text)] mb-3 text-sm">
+                            <div className="flex items-center text-[var(--card-sub-text)] group-hover:text-[var(--button-text)] mb-3 text-sm transition-colors duration-200">
                                 <MapPin size={16} className="mr-1" />
                                 <span>{hostel.location?.address || "No address"}</span>
                             </div>
@@ -72,13 +81,13 @@ export default function HostelSection() {
                                     ? Array.from(new Set(hostel.rooms.map(r => r.type))).map((type) => (
                                         <span
                                             key={type}
-                                            className="bg-[var(--room-badge-bg)] text-[var(--room-badge-text)] text-xs px-2 py-1 rounded-full mr-2 last:mr-0"
+                                            className="bg-[var(--room-badge-bg)] text-[var(--room-badge-text)] group-hover:bg-[var(--primary)] group-hover:text-[var(--button-text)] text-xs px-2 py-1 rounded-full mr-2 last:mr-0 transition-colors duration-200"
                                         >
                                             {type}
                                         </span>
                                     ))
                                     : (
-                                        <span className="bg-[var(--room-badge-bg)] text-[var(--room-badge-text)] text-xs px-2 py-1 rounded-full">
+                                        <span className="bg-[var(--room-badge-bg)] text-[var(--room-badge-text)] group-hover:bg-[var(--primary)] group-hover:text-[var(--button-text)] text-xs px-2 py-1 rounded-full transition-colors duration-200">
                                             Room
                                         </span>
                                     )}
@@ -87,7 +96,7 @@ export default function HostelSection() {
                                 {hostel.amenities?.slice(0, 4).map((amenity) => (
                                     <div
                                         key={amenity}
-                                        className="flex items-center bg-[var(--amenity-bg)] text-[var(--amenity-text)] px-2 py-1 rounded-full text-xs"
+                                        className="flex items-center bg-[var(--amenity-bg)] text-[var(--amenity-text)] group-hover:bg-[var(--primary)] group-hover:text-[var(--button-text)] px-2 py-1 rounded-full text-xs transition-colors duration-200"
                                     >
                                         <span className="mr-1">{amenityIcons[amenity]}</span>
                                         {amenity}
@@ -96,7 +105,7 @@ export default function HostelSection() {
                             </div>
                             <button
                                 onClick={() => { router.push(`/details/${hostel._id}`); setSelectedHostel(hostel); }}
-                                className="block w-full bg-[var(--button-bg)] text-[var(--button-text)] text-center py-2 rounded-md hover:bg-[var(--button-bg-hover)] transition-colors mt-2 font-semibold"
+                                className="block w-full bg-[var(--button-bg)] text-[var(--button-text)] text-center py-2 rounded-md hover:bg-[var(--button-bg-hover)] group-hover:bg-[var(--button-text)] group-hover:text-[var(--primary)] transition-colors mt-2 font-semibold"
                             >
                                 View Details
                             </button>
