@@ -25,33 +25,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="flex flex-col items-start">
-            <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link href="/" className="text-[var(--footer-muted-text)] hover:text-[var(--footer-hover-text)] transition-colors">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/search" className="text-[var(--footer-muted-text)] hover:text-[var(--footer-hover-text)] transition-colors">
-                  Find Hostels
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="text-[var(--footer-muted-text)] hover:text-[var(--footer-hover-text)] transition-colors">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-[var(--footer-muted-text)] hover:text-[var(--footer-hover-text)] transition-colors">
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
-
           {/* Contact Info */}
           <div className="flex flex-col items-start">
             <h3 className="text-xl font-bold mb-4">Contact Us</h3>
